@@ -10,27 +10,36 @@
 <body>
     <main id="app">
         <h1 class="hidden">Welcome to my awesome app</h1>
+
+
         <nav class="main-nav">
-            <li><a href="" class="list-item">list 1</a></li>
-            <li><a href="" class="list-item">list 2</a></li>
-            <li><a href="" class="list-item">list 3</a></li>
-            <li><a href="" class="list-item">list 4</a></li>
+            <li class="nav-item"><a href="#">list 1</a></li>
+            <li class="nav-item"><a href="#">list 2</a></li>
+            <li class="nav-item"><a href="#">list 3</a></li>
+            <li class="nav-item"><a href="#">list 4</a></li>
+            <li class="nav-item"><a href="#">list 5</a></li>
         </nav>
         <!-- end component -->
 
         <!-- add a user section here -->
-        <section class="users-section">
-            <h1 class="hidden">Our Users</h1>
-            <h2 class="user-name"></h2>
-            <p class="user-role"></p>
-            <p class="user-nickname"></p>
-        </section>
+        <section class="user-section"></section>
         <!-- end users section -->
     </main>
 
-</footer> this is a simple footer </footer>
+    <footer> this is a simple footer </footer>
 
-    <script src="js/main.js" type="module"></script>
+    <!-- templates go here (these dont get rendered on the page) -->
+    <template id="profs-template">
+        <div class="user">
+            <h1 class="hidden"></h1>
+            <h2 class="user-name"></h2>
+            <p class="user-role"></p>
+            <p class="user-nickname"></p>
+        </div>
+    </template>
+    <!-- end templates-->
+
+    <script type="module" src="js/main.js"></script>
     
 </body>
 </html>
