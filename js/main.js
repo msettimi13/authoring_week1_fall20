@@ -1,59 +1,41 @@
+import { fetchData } from "./modules/DataMiner.js";
+
 (() => {
-    // XHTTP is the old tried-and-true way of doing AJAX - still relevant, but there are better options
-    
-     // create an instance of the AJAX object (ordering food)
-    let myReq = new XMLHttpRequest;
 
-    // add an event handler so that we can track the stages of the request and respond accordingly (worker ready to help)
-    myReq.addEventListener('readystatechange', handleRequest);
+        // make an AJAX request using the fetch API
+    //     async function fetchData(datasource) {
+    //         let resource = await fetch(datasource).then(response => {
+    //             if (response.status !== 200) {
+    //                 throw new Error(`Danger will robinson! here there be monsters! Error $(response.status)`);
+    //             }
 
-    // get the request ready to go / configure it with method and resource request (your order)
-    myReq.open('GET', '../DataSet.json');
-    
-    // send the request off to the server
-    myReq.send();
+    //             return response; 
 
-    // this is a passive listener function - it gets invoked for every stage of the AJAX request. When the request is done and the data payload is returned from the server it passes that data to the handleDataSet function
-    function handleRequest() {
-        debugger;
-        
-        if (myReq.readyState === XMLHttpRequest.DONE) {
-            debugger;
-            // check status here and proceed
-            if (myReq.status === 200) {
-                // 200 means done and dusted, ready to go with the dataset!
-                handleDataSet(myReq.responseText);
+    //         })
 
-            } else {
-                // probably got some kind of error code, so handle that 
-                // a 404, 500 etc... can render appropriate error messages here
-                console.error(`${myReq.status} : something done broke, son`);
-            }
-        } else {
-            debugger;
-            // request isn't ready yet, keep waiting...
-            console.log(`Request state: ${myReq.readyState}. Still processing...`);
-        }
+    //     //if we get success, then we can return back our resource afer we parse it into plain js
+    //     let dataset = await resource.json();
 
-    }
+    //     return dataset;
+    // }
 
     // this receives the data payload from our AJAX request, parses it (turns the returned JSON object back into a plain JavaScript object) and renders the data to our view (the markup in index.html)
     function handleDataSet(data) {
-        let myData = JSON.parse(data),
-            userSection = document.querySelector('.user-section'),
+        let userSection = document.querySelector('.user-section'),
             userTemplate = document.querySelector('#user-template').content;
 
         debugger;
 
         // loop through the JavaScript object and for each user, make a copy of the user template we find at the bottom of index.html, populate it with the user's data, and put that fresh copy in the users section in index.html
 
-        for (let user in myData) {
+        for (let user in data) {
             let currentUser = userTemplate.cloneNode(true),
                 currentUserText = currentUser.querySelector('.user').children;
 
-            currentUserText[1].textContent = myData[user].name;
-            currentUserText[2].textContent = myData[user].role;
-            currentUserText[3].textContent = myData[user].nickname;
+            currentUserText[1].src = `images/${data[user].avatar}.jpg`;
+            currentUserText[1].textContent = data[user].name;
+            currentUserText[2].textContent = data[user].role;
+            currentUserText[3].textContent = data[user].nickname;
 
             // add this new user to the view
             userSection.appendChild(currentUser);
@@ -61,4 +43,7 @@
 
         console.log(data);
     }
+
+    fetchData('./DataSet.json').then(data => handleDataSet(data)).catch(err => console.log(err));
+    fetchData('./AnotherDataSet.json').then(data => handleDataSet(data)).catch(err => console.log(err));
 })();
