@@ -1,18 +1,23 @@
-(() => {
-        // make an AJAX request using the fetch API
+import { fetchData } from "./modules/DataMiner.js";
 
-        fetch('./DataSet.json')
-            .then(res => res.json()) // parse the json (translate) back to plain JS
-            .then(data => {
-                //this is our data (dataset.json)
-                // converted to a plain js object
-                handleDataSet(data);
-            // handleData
-            // heres where you would call the function that puts the pieces on the page
-        })
-    
-        // if it breaks tell me what happened to it
-        .catch((error) => console.log(error));
+(() => {
+
+        // make an AJAX request using the fetch API
+    //     async function fetchData(datasource) {
+    //         let resource = await fetch(datasource).then(response => {
+    //             if (response.status !== 200) {
+    //                 throw new Error(`Danger will robinson! here there be monsters! Error $(response.status)`);
+    //             }
+
+    //             return response; 
+
+    //         })
+
+    //     //if we get success, then we can return back our resource afer we parse it into plain js
+    //     let dataset = await resource.json();
+
+    //     return dataset;
+    // }
 
     // this receives the data payload from our AJAX request, parses it (turns the returned JSON object back into a plain JavaScript object) and renders the data to our view (the markup in index.html)
     function handleDataSet(data) {
@@ -38,4 +43,7 @@
 
         console.log(data);
     }
+
+    fetchData('./DataSet.json').then(data => handleDataSet(data)).catch(err => console.log(err));
+    fetchData('./AnotherDataSet.json').then(data => handleDataSet(data)).catch(err => console.log(err));
 })();
