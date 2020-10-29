@@ -1,41 +1,26 @@
-import { fetchData } from "./modules/DataMiner.js";
+// import your packages here
+import { fetchData, postData } from "./modules/DataMiner.js";
 
 (() => {
+    // stub * just a place for non-component-specific stuff
+    console.log('loaded');
+    
+    function popErrorBox(message) {
+        alert("Something has gone horribly, horribly wrong");
+    }
 
-        // make an AJAX request using the fetch API
-    //     async function fetchData(datasource) {
-    //         let resource = await fetch(datasource).then(response => {
-    //             if (response.status !== 200) {
-    //                 throw new Error(`Danger will robinson! here there be monsters! Error $(response.status)`);
-    //             }
-
-    //             return response; 
-
-    //         })
-
-    //     //if we get success, then we can return back our resource afer we parse it into plain js
-    //     let dataset = await resource.json();
-
-    //     return dataset;
-    // }
-
-    // this receives the data payload from our AJAX request, parses it (turns the returned JSON object back into a plain JavaScript object) and renders the data to our view (the markup in index.html)
     function handleDataSet(data) {
         let userSection = document.querySelector('.user-section'),
             userTemplate = document.querySelector('#user-template').content;
-
-        debugger;
-
-        // loop through the JavaScript object and for each user, make a copy of the user template we find at the bottom of index.html, populate it with the user's data, and put that fresh copy in the users section in index.html
 
         for (let user in data) {
             let currentUser = userTemplate.cloneNode(true),
                 currentUserText = currentUser.querySelector('.user').children;
 
-            currentUserText[1].src = `images/${data[user].avatar}.jpg`;
-            currentUserText[1].textContent = data[user].name;
-            currentUserText[2].textContent = data[user].role;
-            currentUserText[3].textContent = data[user].nickname;
+            currentUserText[1].src = `images/${data[user].avatar}`;
+            currentUserText[2].textContent = data[user].name;
+            currentUserText[3].textContent = data[user].role;
+            currentUserText[4].textContent = data[user].nickname;
 
             // add this new user to the view
             userSection.appendChild(currentUser);
@@ -44,6 +29,12 @@ import { fetchData } from "./modules/DataMiner.js";
         console.log(data);
     }
 
-    fetchData('./DataSet.json').then(data => handleDataSet(data)).catch(err => console.log(err));
-    fetchData('./AnotherDataSet.json').then(data => handleDataSet(data)).catch(err => console.log(err));
+    
+    // we can add a catch handler to a thenable if things go wrong during our data retrieval attempt
+    // really, we should move all of this to an external class or function and pass arguments into it.
+
+    // that would make it really flexible and able to handle all kinds of requests and we could pass in a callback depending on what we want to do with our data
+
+    // but then we'd be on our way to rewriting the Axios API (you should research it)
+    fetchData("./includes/functions.php").then(data => handleDataSet(data)).catch(err => { console.log(err); popErrorBox(err); });
 })();
