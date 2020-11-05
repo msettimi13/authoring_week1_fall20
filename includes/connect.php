@@ -14,10 +14,10 @@
 
     try{ //like a key trying to get into a door and if it fits you can get whatever you need
         $pdo = new PDO($dsn, $db_user, $db_pass); //pdo is the key fitting
-        // var_dump($pdo); //see the connection and make sure it works 
+        //var_dump($pdo); //see the connection and make sure it works 
         // echo (in this case) is almost like a console.log
         // echo "you're in! congrats!";
     } catch (PDOException $exception){ //catch gives you an error message if the key doesnt fit
-        echo 'Connection Error:'.$exception->getMessage();
+        echo 'Connection Error:'. $exception->getMessage();
         exit();
     }
