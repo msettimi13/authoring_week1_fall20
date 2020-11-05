@@ -1,17 +1,31 @@
 <?php
-    // include the file we just wrote - connect 
-    include("connect.php"); // like a JS import statement
+    // $result will store the database request results so that we can encode and return them to index.php
+    $result = array();
 
-    $query = "SELECT * FROM profData";
+    function getAllUsers($conn) {
+        $query = "SELECT * FROM profData";
+    
+        $runQuery = $conn->query($query); //havent done anything with it
+    
+        while($row = $runQuery->fetchAll(PDO::FETCH_ASSOC)) {
+            $result[] = $row;
+        } // this grabs the data and shows it
+    
+        // return $result;
+        //var_dump($result);
+        echo(json_encode($result));
+    }
 
-    $runQuery = $pdo->query($query); //havent done anything with it
+// get a specific user 
 
-    $result = array(); //put it in an array and send it back
+    function getSingleUser($conn, $id) {
+        $query = "SELECT * FROM profData WHERE id=" . $id . "";
 
-    while($row = $runQuery->fetchAll(PDO::FETCH_ASSOC)) {
-        $result[] = $row;
-    } // this grabs the data and shows it
+        $runQuery = $conn->query($query); //havent done anything with it
 
-    // return $result;
-    //var_dump($result);
-    echo(json_encode($result));
+        while($row = $runQuery->fetchAll(PDO::FETCH_ASSOC)) {
+            $result[] = $row;
+        } // this grabs the data and shows it
+
+        echo(json_encode($result));
+    }
