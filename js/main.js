@@ -10,31 +10,18 @@ import { fetchData, postData } from "./modules/DataMiner.js";
     }
 
     function handleDataSet(data) {
-        let userSection = document.querySelector('.user-section'),
-            userTemplate = document.querySelector('#user-template').content;
-
-        for (let user in data) {
-            let currentUser = userTemplate.cloneNode(true),
-                currentUserText = currentUser.querySelector('.user').children;
-
-            currentUserText[1].src = `images/${data[user].avatar}`;
-            currentUserText[2].textContent = data[user].name;
-            currentUserText[3].textContent = data[user].role;
-            currentUserText[4].textContent = data[user].nickname;
-
-            // add this new user to the view
-            userSection.appendChild(currentUser);
+        // populate a light box with this data
+        // and then open it
+        let lightbox = document.querySelector(".lightbox");
         }
-
-        //console.log(data);
-    }
     
     function retrieveProjectInfo() {
         //test for an ID
-        debugger;
-        console.log(this.id);
+        //check for an id, and if there isnt one, dont try the fetch call
+        // bc itll break (the php will choke)
+        if (!event.target.id) { return }
 
-        fetchData(`./includes/index.php?id=${this.id}`).then(data => console.log(data)).catch(err => { console.log(err); popErrorBox(err); });
+        fetchData(`./includes/index.php?id=${event.target.id}`).then(data => console.log(data)).catch(err => { console.log(err); popErrorBox(err); });
     }
 
     function renderPortfolioThumbnails(thumbs) {
@@ -48,9 +35,10 @@ import { fetchData, postData } from "./modules/DataMiner.js";
             currentUserText[1].src = `images/${thumbs[user].avatar}`;
             currentUserText[1].id = thumbs[user].id;
             // add this new user to the view
-            currentUser.addEventListener("click", retrieveProjectInfo);
             userSection.appendChild(currentUser);
         }
+
+        userSection.addEventListener("click", retrieveProjectInfo);
     }
     
     fetchData("./includes/index.php").then(data => renderPortfolioThumbnails(data)).catch(err => { console.log(err); popErrorBox(err); });
